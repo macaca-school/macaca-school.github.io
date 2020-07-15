@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" type="image/gif" href="img/macaca.ico" id="favicon" />
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css"
+        integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
+    <link rel="stylesheet" href="index.css">
+
+    <title>Hello, mover!</title>
+</head>
+
+<body>
+    <header>
+        <h1 class="shadow p-3 mb-3 bg-macaca-dark text-macaca"><img src="img/macaca.png" height="60px"> Movement Gadgets</h1>
+    </header>
+
+    <main>
+        <div class="d-flex justify-content-between mt-3 mb-3">
+            <label for="time-interval" class="form-label flex-fill m-auto config-name">Time Interval</label>
+            <input type="range" class="form-range p-2 m-auto slider" min="0.5" max="7" step="0.1"
+                id="time-interval" oninput="setInterval(this.value)">
+            <h2 class="display-3"><span id="display-interval" class="badge bg-macaca-dark font-monospace config">1.0s</span>
+            </h2>
+        </div>
+        <div class="d-flex justify-content-between mt-3 mb-3">
+            <label for="time-variance" class="form-label flex-fill m-auto  config-name">
+                Rhythm Breaker
+            </label>
+            <input type="range" class="form-range p-2 m-auto slider" min="0" max="200" step="5"
+                id="time-variance" oninput="setVariance(this.value)">
+            <h2 class="display-3"><span id="display-variance" class="badge bg-macaca-dark font-monospace config">0%</span></h2>
+        </div>
+        <div class="d-flex justify-content-between mt-3 mb-3">
+            <label for="time-interval" class="form-label flex-fill m-auto config-name">Instructions</label>
+            <select id="instructions-select" class="form-select form-select-lg mb-3"
+                onchange="setInstructions(this.selectedIndex)" ontouchstart="loadAudios()">
+            </select>
+        </div>
+
+        <div class="d-flex justify-content-center mb-5">
+            <a id="start-button" class="btn-lg btn-macaca text-uppercase p-3" onclick="startGadget()" ontouchstart="loadAudios()">
+                Start
+            </a>
+        </div>
+
+        <div id="ios-alert" style="display: none;" class="alert alert-danger" role="alert" >
+            Audio may <a href="https://github.com/macaca-school/movement-gadgets/issues/2" class="alert-link"
+            target="_blank" rel="license noopener">nott work</a> for iPhone and iPad.
+         </div>
+
+        <div class="d-flex align-items-center justify-content-center rounded shadow text-macaca bg-macaca-dark instruction-banner">
+            <h1 class="display-1">
+                <strong><span id="instruction-text" class="hidden">-</span></strong>
+            </h1>
+        </div>
+
+        <div class="mt-5">
+            <p><strong>HOW TO USE:</strong></p>
+            <ol>
+                <li>Set a Time Interval.</li>
+                <li>Set a Rhythm Breaker if you want to add a random extra time delay between each instruction. For example, if
+                    you set
+                    <span class="font-monospace">1.0s</span> as Time Interval and <span
+                        class="font-monospace">50%</span>
+                    as Rhythm Breaker then instructions will appear between <span class="font-monospace">1.0s</span> and
+                    <span class="font-monospace">1.5s</span>.</li>
+                <li>Select the Instructions you want.</li>
+                <li>Turn on audio on your device, press START and have fun!</li>
+            </ol>
+            <p>* You don't need to pause to change any configuration. Just change it and the gadget will automatically
+                pick it up for you.</p>
+        </div>
+
+        <div id="audio-clips">
+            <audio id="audio-beat">
+                <source src="audio/beat.m4a" type="audio/mpeg">
+                <source src="audio/beat.mp3" type="audio/mp3">
+                <source src="audio/beat.ogg" type="audio/ogg">
+                Your browser does not support the audio element.
+            </audio>
+            <audio id="audio-change">
+                <source src="audio/change.m4a" type="audio/mpeg">
+                <source src="audio/change.ogg" type="audio/ogg">
+                <source src="audio/change.mp3" type="audio/mp3">
+                Your browser does not support the audio element.
+            </audio>
+            <audio id="audio-contra">
+                <source src="audio/contra.m4a" type="audio/mpeg">
+                <source src="audio/contra.ogg" type="audio/ogg">
+                <source src="audio/contra.mp3" type="audio/mp3">
+                Your browser does not support the audio element.
+            </audio>
+            <audio id="audio-ipsi">
+                <source src="audio/ipsi.m4a" type="audio/mpeg">
+                <source src="audio/ipsi.ogg" type="audio/ogg">
+                <source src="audio/ipsi.mp3" type="audio/mp3">
+                Your browser does not support the audio element.
+            </audio>
+            <audio id="audio-forward-ipsi">
+                <source src="audio/forward-ipsi.m4a" type="audio/mpeg">
+                <source src="audio/forward-ipsi.ogg" type="audio/ogg">
+                <source src="audio/forward-ipsi.mp3" type="audio/mp3">
+                Your browser does not support the audio element.
+            </audio>
+            <audio id="audio-forward-contra">
+                <source src="audio/forward-contra.m4a" type="audio/mpeg">
+                <source src="audio/forward-contra.ogg" type="audio/ogg">
+                <source src="audio/forward-contra.mp3" type="audio/mp3">
+                Your browser does not support the audio element.
+            </audio>
+            <audio id="audio-backward-ipsi">
+                <source src="audio/backward-ipsi.m4a" type="audio/mpeg">
+                <source src="audio/backward-ipsi.ogg" type="audio/ogg">
+                <source src="audio/backward-ipsi.mp3" type="audio/mp3">
+                Your browser does not support the audio element.
+            </audio>
+            <audio id="audio-backward-contra">
+                <source src="audio/backward-contra.m4a" type="audio/mpeg">
+                <source src="audio/backward-contra.ogg" type="audio/ogg">
+                <source src="audio/backward-contra.mp3" type="audio/mp3">
+                Your browser does not support the audio element.
+            </audio>
+            <audio id="audio-inside-ipsi">
+                <source src="audio/inside-ipsi.m4a" type="audio/mpeg">
+                <source src="audio/inside-ipsi.ogg" type="audio/ogg">
+                <source src="audio/inside-ipsi.mp3" type="audio/mp3">
+                Your browser does not support the audio element.
+            </audio>
+            <audio id="audio-inside-contra">
+                <source src="audio/inside-contra.m4a" type="audio/mpeg">
+                <source src="audio/inside-contra.ogg" type="audio/ogg">
+                <source src="audio/inside-contra.mp3" type="audio/mp3">
+                Your browser does not support the audio element.
+            </audio>
+            <audio id="audio-outside-ipsi">
+                <source src="audio/outside-ipsi.m4a" type="audio/mpeg">
+                <source src="audio/outside-ipsi.ogg" type="audio/ogg">
+                <source src="audio/outside-ipsi.mp3" type="audio/mp3">
+                Your browser does not support the audio element.
+            </audio>
+            <audio id="audio-outside-contra">
+                <source src="audio/outside-contra.m4a" type="audio/mpeg">
+                <source src="audio/outside-contra.ogg" type="audio/ogg">
+                <source src="audio/outside-contra.mp3" type="audio/mp3">
+                Your browser does not support the audio element.
+            </audio>
+            <audio id="audio-up">
+                <source src="audio/up.m4a" type="audio/mpeg">
+                <source src="audio/up.ogg" type="audio/ogg">
+                <source src="audio/up.mp3" type="audio/mp3">
+                Your browser does not support the audio element.
+            </audio>
+            <audio id="audio-down">
+                <source src="audio/down.m4a" type="audio/mpeg">
+                <source src="audio/down.ogg" type="audio/ogg">
+                <source src="audio/down.mp3" type="audio/mp3">
+                Your browser does not support the audio element.
+            </audio>
+            <audio id="audio-change-plane">
+                <source src="audio/change-plane.m4a" type="audio/mpeg">
+                <source src="audio/change-plane.ogg" type="audio/ogg">
+                <source src="audio/change-plane.mp3" type="audio/mp3">
+                Your browser does not support the audio element.
+            </audio>
+            <audio id="audio-change-direction">
+                <source src="audio/change-direction.m4a" type="audio/mpeg">
+                <source src="audio/change-direction.ogg" type="audio/ogg">
+                <source src="audio/change-direction.mp3" type="audio/mp3">
+                Your browser does not support the audio element.
+            </audio>
+        </div>
+    </main>
+
+    <footer class="d-flex flex-column align-items-center p-2 m-auto mt-3">
+        <h1><span class="badge rounded-pill badge-macaca p-3 mb-1">
+            <img src="img/macaca.png" height="48px">
+            macaca movement
+        </span>
+        </h1>
+        <div class="d-flex align-items-center">
+            <small>
+                Created by <a href="https://padovan.org/" target="_blank"
+                rel="license noopener">Gustavo Padovan</a> |
+                <strong>Open Source</strong> Software licensed under
+                <a href="https://github.com/macaca-movement/movement-gadgets/blob/master/LICENSE" target="_blank"
+                    rel="license noopener">MIT</a>, audios under
+                <a href="https://creativecommons.org/licenses/by/3.0/" target="_blank" rel="license noopener">
+                    CC BY 3.0</a> |
+                Source Code at
+                <a href="https://github.com/macaca-movement/movement-gadgets/" target="_blank" rel="license noopener">
+                    GitHub.
+                </a>
+            </small>
+        </div>
+    </footer>
+
+    <!-- Our gadget JavaScript -->
+    <script src="gadget.js"></script>
+</body>
+
+</html>

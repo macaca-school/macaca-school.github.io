@@ -1,0 +1,105 @@
+html, body {
+    height: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+a {
+    text-decoration: none;
+}
+
+header {
+    border-left: 1em;
+}
+
+main {
+    flex: 1 0 auto;
+    margin: auto;
+    width: 90%;
+}
+
+.slider {
+    width: 70%;
+}
+
+.config-name {
+    width: 10em;
+}
+
+.config {
+    width: 4em;
+}
+
+.instruction-banner {
+    margin: auto;
+    width: 100%;
+    min-height: 15rem;
+    text-align: center;
+    text-transform: uppercase;
+    vertical-align: middle;
+}
+
+.visible {
+    visibility: visible;
+    opacity: 1;
+}
+
+.hidden {
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s 0.3s, opacity 0.3s linear;
+}
+
+footer {
+    flex-shrink: 0;
+    width: 90%;
+}
+
+/* FIXME: one day we should use Sass and configure primary/secondary colors there */
+a {
+    color: #9baf80;
+}
+
+a:hover {
+    color: #abbf8f;
+}
+
+.text-macaca {
+    color: #fff;
+}
+
+.bg-macaca-dark {
+    background-color: #253820;
+}
+
+.btn-macaca {
+    color: #fff;
+    background-color: #9baf80;
+    border-color: #9baf80;
+}
+
+.btn-macaca:hover {
+    color: #fff;
+    background-color: #abbf8f;
+    border-color: #abbf8f;
+    cursor: pointer;
+}
+
+.badge-macaca {
+    background-color: #253820;
+}
+
+.slider::-webkit-slider-thumb {
+    background: #253820;
+}
+
+.slider::-moz-range-thumb {
+    background: #253820;
+}
+
+.slider::-ms-thumb {
+    background: #253820;
+}
